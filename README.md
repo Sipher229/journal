@@ -15,11 +15,11 @@ Anyone can clone or fork this project to have it run on their pc. To do this, yo
 After setting up your database, go ahead and open two terminal windows, one for your server and the other for your API. 
 
 In one terminal run the command:
-npm start 
+`npm start`
 to start the server
 
 In the second run the command:
-npm run dev 
+`npm run dev` 
 to start the API
 
 You can the run the application on your localhost.
