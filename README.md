@@ -10,11 +10,11 @@ The technologies used to create the app are the following:
     -javascript
     -jQuery
     -SQL/postgres
-Anyone can clone or fork this project to have it run on their pc. To do this, you first have to create two tables in a postgres database using pgadmin. Name the first table users and the second blogs. You can name the tables diffently depending on what you find convenient. However, remember to edit the code accordingly. In the users table you need the following columns: id(primary key and data type "SERIAL"), email(add the constraint "UNIQUE" and data type "TEXT") and password(data type "TEXT"). In the blogs table, you need the following columns: id(primary key), title(data type "Text"), blog(data type "Text"), date(data type "VARCHAR(20)"), user_id(data type "INTEGER", and make it refer to the user(id) column). These tables have a one-to-many relationship to allow a user to access all their content, and to allow multiple users to use the application.
+Anyone can clone this project to have it run on their pc. To do this, you first have to create two tables in a postgres database using pgadmin. Name the first table users and the second blogs. You can name the tables diffently depending on what you find convenient. However, remember to edit the code accordingly. In the users table you need the following columns: id(primary key and data type "SERIAL"), email(add the constraint "UNIQUE" and data type "TEXT") and password(data type "TEXT"). In the blogs table, you need the following columns: id(primary key), title(data type "Text"), blog(data type "Text"), date(data type "VARCHAR(20)"), user_id(data type "INTEGER", and make it refer to the user(id) column). These tables have a one-to-many relationship to allow a user to access all their content, and to allow multiple users to use the application.
 
-After setting up your database, go ahead and open two terminal windows, one for your server and the other for your API. 
+After setting up your database, go ahead and open two terminal windows, one for your server and the other for your API. First run `npm install` to install all node packages. 
 
-In one terminal run the command:
+Then in one terminal run the command:
 `npm start`
 to start the server
 
