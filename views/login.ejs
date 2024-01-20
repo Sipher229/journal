@@ -1,0 +1,16 @@
+<%- include("partials/header.ejs") %>
+
+
+    <div class="content">
+        <h2 class="greeting">Welcome Back</h2>
+        <form action="/login" method="post">
+            <input name="email"type="email" placeholder="insert your email"class="input"/>
+
+            <input name="password" type="password" placeholder="insert your password" class="input" />
+
+            <button class="entrance-button">Login</button>
+        </form>
+        <p class="redirect-text">No account yet? <span><a href="/">Register</a></span> </p>
+    </div>
+
+<%- include("partials/footer.ejs") %>

@@ -1,0 +1,17 @@
+    </main>
+    <footer></footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $("#register-btn").click((e)=>{
+            if($("#password").val() !== $("#confirm-password").val() ){
+                e.preventDefault();
+                // $("#confirm-password").css("border-bottom-color", "red");
+                $("#noMatch").removeAttr("hidden");
+            }
+           
+        })
+        const year = new Date().getFullYear();
+        $("footer").text(`©${year} Philippe Neri Singizwa`);
+    </script>
+</body>
+</html>

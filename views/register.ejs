@@ -1,0 +1,20 @@
+<%- include("partials/header.ejs") %>
+
+
+    <div class="content">
+        <h2 class="greeting">Welcome To Journal</h2>
+        <form action="/register" method="post">
+            <input name="email" id="email" type="email" placeholder="insert your email" class="input" required/>
+
+            <input name="password" id="password" type="password" placeholder="create a password" class="input" required/>
+            <div>
+                <input name="confirm_password" id="confirm-password" type="password" placeholder="confirm password" class="input" style="border-bottom: none;" required/>
+                <p class="redirect-text" id="noMatch" hidden style="color: red; font-size: 8px; padding: 0px;">The passwords should match. Verify and try again.</p>
+            </div>
+            <button class="entrance-button" id="register-btn">Register</button>
+        </form>
+        <p class="redirect-text">Already a user? <span><a href="/login">Login</a></span> </p>
+    </div>
+
+
+<%- include("partials/footer.ejs") %>

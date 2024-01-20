@@ -1,0 +1,28 @@
+<%- include("partials/header.ejs") %>
+<div class="wrap-content">
+    <div class="content">
+        <% if (locals.content) { content.forEach((note)=>{%>
+        <div class="note-wrapper">
+            <h3 class="note-heading"><%= note.title %></h3>
+            <small><%= note.date %> </small>
+            <p class="note-content"><%= note.blog %></p>
+            <div class="edit-delete">
+                <a href="/edit/<%= note.id %>"><button>Edit</button></a>
+                <a href="/delete/<%= note.id %>"><button>Delete</button></a>
+    
+            </div>
+        </div>
+
+    <% })} else{%>
+        <h3 class="note-heading">Welcome to Journal</h3>
+        <p class="note-content">
+            Write about your day, or anything else. <br/> Everything is kept private and can only be accessed<br/> by you.<br><br>
+            Click the add button below to start adding content.
+        </p>
+    <%}%>
+    
+
+    </div>
+    <button class="add-button"><a href="/add">Add</a></button>
+</div>
+<%- include("partials/footer.ejs") %>

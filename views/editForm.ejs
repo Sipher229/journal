@@ -1,0 +1,20 @@
+<%- include("partials/header.ejs") %>
+<% if (locals.content) { content.forEach((note)=>{%>
+    <div class="content">
+        <form action="/edit" method="post">
+            <textarea type="text" cols="6" rows="2" name="title" class="edit-input-title" placeholder="Mood" style="font-family: Mulish;"><%=note.title%></textarea>
+            <textarea name="content" cols="47" rows="19" placeholder="How are you feeling today" ><%=note.blog%></textarea>
+            <button class="entrance-button" style="font-family: Mulish; font-size: 12px;">Save</button>
+        </form>
+    </div>
+<% })} else {%>
+<div class="content">
+    <form action="/add" method="post">
+        <input type="text" name="title" class="edit-input-title" placeholder="Mood" style="font-family: Mulish;" id=""/>
+        <textarea name="content" id="" cols="47" rows="19" placeholder="How are you feeling today"></textarea>
+        <button class="entrance-button" style="font-family: Mulish; font-size: 12px;">Done</button>
+    </form>
+</div>
+<%}  %>
+
+<%- include("partials/footer.ejs") %>
