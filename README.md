@@ -22,5 +22,5 @@ In the second run the command:
 `npm run dev` 
 to start the API
 
-You can the run the application on your localhost.
+You can then run the application on your localhost.
 
