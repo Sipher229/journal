@@ -2,15 +2,18 @@ import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios"
 
+
 const app = express();
 const port = 3000;
 const API_URL = "http://localhost:4000"
 let msg;
 let isAuthenticated = false;
 let isNewUser = false;
+const saltRounds = 10;
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
+
 
 app.get("/",(req, res)=>{
     res.render("register.ejs");
@@ -28,17 +31,19 @@ app.get("/add", (req, res)=>{
     }
 });
 app.post("/register", async (req, res)=>{
-    const {email, password} = req.body
-    const response = await axios.post(`${API_URL}/register`, {email: email, password: password});
-    isAuthenticated = true;
+    const {email, password} = req.body;
+    
     try {
+        const response = await axios.post(`${API_URL}/register`, {email: email, password: password});
         if (response.data.content.length !== 0){
             res.render("content.ejs", {content: JSON.parse(response.data.content)});
         } else{
             res.render("content.ejs");
         }
+        isAuthenticated = true;
     } catch (error) {
         res.redirect('/');
+        console.error(error.message);
     }
 
     
@@ -46,7 +51,7 @@ app.post("/register", async (req, res)=>{
 
 app.post("/login", async (req, res)=>{
     const {email, password} = req.body;
-    try {
+    try{
         const response = await axios.post(`${API_URL}/login`, {email: email, password: password});
         if (response.data.status && response.data.content.length >0){
             isAuthenticated = true;
@@ -62,6 +67,7 @@ app.post("/login", async (req, res)=>{
         res.redirect("/login");
         console.error(error.message)
     }
+
 });
 
 app.post("/add", async (req, res)=>{

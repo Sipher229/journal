@@ -2,7 +2,8 @@ import express from "express";
 import "dotenv/config";
 import pg from "pg"
 import bodyParser from "body-parser";
-import cors from "cors"
+import cors from "cors";
+import bcrypt from "bcrypt";
 
 
 
@@ -27,6 +28,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 let userId=0;
 let editId;
 const time = new Date();
+const saltRounds = 10;
 
 const date = `${time.getMonth()+1}/${time.getDate()}/${time.getFullYear()}`
 
@@ -63,29 +65,37 @@ app.post("/register", async  (req, res)=>{
     console.log("register route hit!");
     const {email, password} = req.body;
     const qry = 'INSERT INTO users(email, password) VALUES ($1, $2)';
-    
-    try {
+    bcrypt.hash(password, saltRounds, async (err, hash)=>{
+        if(err){
+            console.error(err.message);
+        } else{
+            try {
         
-        const response = await db.query(qry, [email, password]);
-        userId = await getUserId(email);
-        const notes = await getUserContent(userId);
-        console.log(notes);
-        if (notes.length === 0){
-            res.json({
-                status: true,
-                content: []
-            });
-        } else {
-            res.json({
-                status: true,
-                content: JSON.stringify(notes),
-            });
+                const response = await db.query(qry, [email, hash]);
+                userId = await getUserId(email);
+                const notes = await getUserContent(userId);
+                console.log(notes);
+                if (notes.length === 0){
+                    res.json({
+                        status: true,
+                        content: []
+                    });
+                } else {
+                    res.json({
+                        status: true,
+                        content: JSON.stringify(notes),
+                    });
+                }
+        
+            } catch (error) {
+                res.json({status: false});
+                console.error(error.message)
+            }
         }
 
-    } catch (error) {
-        res.json({status: false});
-        console.error(error.message)
-    }
+    });
+    
+
 });
 app.post("/login", async  (req, res)=>{
     console.log("login route hit");
