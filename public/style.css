@@ -96,7 +96,7 @@ span a{
     border-radius: 10px;
     padding-left: 3rem;
     padding-right: 1.3rem;
-    max-width: 31rem;
+    width: 31rem;
     height: 29rem;
     box-sizing: border-box;
     display: flex;

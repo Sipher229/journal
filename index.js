@@ -42,14 +42,10 @@ async function getUserId(email){
     
  }
 
-async function authenticated(email, password){
-    const qry = 'SELECT (email, password) FROM users WHERE email = $1 AND password = $2';
-    const response = await db.query(qry, [email, password]);
-    if(response.rows.length === 0){
-        return false
-    } else {
-        return true
-    }
+async function getUser(email){
+    const qry = 'SELECT * FROM users WHERE email = $1';
+    const response = await db.query(qry, [email]);
+    return response.rows;
 }
 async function getUserContent(id){
     const qry = "SELECT blogs.blog, blogs.title, blogs.user_id, users.email, blogs.date, blogs.id FROM blogs JOIN users ON blogs.user_id = users.id WHERE blogs.user_id = $1"
@@ -101,23 +97,41 @@ app.post("/login", async  (req, res)=>{
     console.log("login route hit");
     const {email, password} = req.body;
     const qry = "SELECT blogs.blog, blogs.title, blogs.user_id, users.email, blogs.date, blogs.id FROM blogs JOIN users ON blogs.user_id = users.id WHERE blogs.user_id = $1"
+    const user = await getUser(email);
     try {
-        if (await authenticated(email, password)){
-            userId = await getUserId(email);
-            // console.log(userId);
-            const notes = await getUserContent(userId);
-            res.json({
-                message: "success",
-                status: true,
-                content: JSON.stringify(notes),
+        if (user.length !== 0){
+            console.log("bcrypt!");
+            bcrypt.compare(password, user[0].password, async (err, result)=>{
+                if (err){
+                    console.log("error comparing passwords:" + err.message);
+                } else{
+                    if(result){
+                        userId = await getUserId(email);
+                        // console.log(userId);
+                        const notes = await getUserContent(userId);
+                        res.json({
+                            message: "success",
+                            status: true,
+                            content: JSON.stringify(notes),
+                        });
+                    } else{
+                        console.log("no bcrypt!");
+                        res.json({
+                            status: false,
+                            message: "wrong email or password!",
+                            content: []
+                        });
+                    }
+                }
             });
+
         } else{
+            console.log("out of bounds");
             res.json({
                 status: false,
                 message: "wrong email or password!",
                 content: []
             });
-            userId = await getUserId(password);
         }
         
     } catch (error) {

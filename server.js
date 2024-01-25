@@ -53,16 +53,13 @@ app.post("/login", async (req, res)=>{
     const {email, password} = req.body;
     try{
         const response = await axios.post(`${API_URL}/login`, {email: email, password: password});
-        if (response.data.status && response.data.content.length >0){
+        if (response.data.status){
             isAuthenticated = true;
             res.render("content.ejs", {content: JSON.parse(response.data.content)});
-        } else if (response.data.status){
-            isAuthenticated = true;
-            res.render("content.ejs");
         } else{
             res.redirect("/login");
         }
-        console.log(response.data.message)
+        
     } catch (error) {
         res.redirect("/login");
         console.error(error.message)
