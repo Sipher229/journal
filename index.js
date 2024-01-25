@@ -100,7 +100,6 @@ app.post("/login", async  (req, res)=>{
     const user = await getUser(email);
     try {
         if (user.length !== 0){
-            console.log("bcrypt!");
             bcrypt.compare(password, user[0].password, async (err, result)=>{
                 if (err){
                     console.log("error comparing passwords:" + err.message);
