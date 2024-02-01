@@ -4,22 +4,21 @@ import axios from "axios"
 import session from "express-session";
 import passport from "passport";
 import { Strategy } from "passport-local";
+import env from "dotenv";
 
 
 
 const app = express();
 const port = 3000;
 const API_URL = "http://localhost:4000"
-let msg;
-let isAuthenticated = false;
-let isNewUser = false;
+env.config();
 
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 app.use(session({
-    secret: "KEYTOBEUSEDTOSTORETHESESSION",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -91,7 +90,7 @@ passport.use(new Strategy(async function verify(username, password, cb){
         const response = await axios.post(`${API_URL}/login`, {email: username, password: password});
         const user = response.data.content;
         if (response.data.status){
-            isAuthenticated = true;
+            // isAuthenticated = true;
             
             return cb(null, user);
             // res.render("content.ejs", {content: JSON.parse(response.data.content)});
